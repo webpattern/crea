@@ -257,37 +257,25 @@ if( isset($dataj['del_ses']))
 		<li>
 			<a href="index.php" title="Вернуться на главную страницу">Главная</a>
 		</li>
-		
 		<li>
 			<a href="catalog.php" title="Каталог">Каталог</a>
 		</li>
-		
 		<li>
 			<a href="#" title="Категории товаров">Категории</a>
-				<ul>
-				
-				<?php
-					$datag = $_POST;
-					if( isset($datag['cat_sub']))
-					{
-					$_SESSION['category_name'] = $datag['cat_name'];
-					echo '<script type="text/javascript">location.replace("catalog.php");</script>';
-
-					}
-				
-					$mass_category_all = R::getCol( 'SELECT category FROM newitems' );
-					$mass_category = array_unique($mass_category_all);
-					if($mass_category != null)
-					{
-						foreach($mass_category as $item)
-						{
-							echo '<li><form method="POST" style="margin-bottom: auto;">
-							<input type="text" style="display: none" name="cat_name" value="'.$item.'">
-							<button style="width: 100%; border: 0px; background: rgba(255, 255, 255, 0);" type="submit" name="cat_sub">
-							<a style="margin-left: -2.5%;">'.$item.'</a></button></form></li>';
-						}
-					}
-				?>
+			<ul>
+				<?php $datag = $_POST; ?>
+				<?php if( isset($datag['cat_sub'])) { ?>
+				<?php $_SESSION['category_name'] = $datag['cat_name']; ?>
+				<?php echo '<script type="text/javascript">location.replace("catalog.php");</script>'; ?>
+				<?php } ?>
+				<?php $mass_category_all = R::getCol( 'SELECT category FROM newitems' ); ?>
+				<?php $mass_category = array_unique($mass_category_all); ?>
+				<?php if($mass_category != null) { ?>
+				<?php foreach($mass_category as $item) { ?>
+				<?php echo '<li><form method="POST" style="margin-bottom: auto;"><input type="text" style="display:none" name="cat_name" value="'.$item.'">
+					<button style="width: 100%; border: 0px; background: rgba(255, 255, 255, 0);" type="submit" name="cat_sub"><a style="margin-left: -2.5%;">'.$item.'</a></button></form></li>'; ?>
+				<?php	} ?>
+				<?php } ?>
 			</ul>
 		</li>
 		
