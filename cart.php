@@ -1,8 +1,6 @@
-<?php
-    header("Content-Type: text/html; charset=utf-8");
-	require "db.php";
-	error_reporting(E_ALL & ~E_NOTICE);
-?>
+<?php header("Content-Type: text/html; charset=utf-8"); ?>
+<?php require "db.php"; ?>
+<?php error_reporting(E_ALL & ~E_NOTICE); ?>
 
 <html dir="ltr" lang="ru" class="">
 <head>
@@ -22,29 +20,20 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link href="favicon.png" rel="shortcut icon" type="image/x-icon">
 		<link href="favicon.png" rel="icon">
-		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"> 
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
-		
-		
-		
 		<style>
 		body { background-color: #fff; color: #000; padding: 0; margin: 0; }
 		.container { width: 1384px; margin: auto; padding-top: 1em; }
 		.container .ism-slider { margin-left: auto; margin-right: auto; }
 		</style>
-
 		<link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="ism/css/my-slider.css"/>
 		<script src="ism/js/ism-2.2.min.js"></script>
-		
 		<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="script.js"></script>
-		
-		
         <link rel="stylesheet" type="text/css" href="style.css">
 		<link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css">
 		<link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css">
@@ -52,10 +41,9 @@
 	
 </head>
 
-
 	<body id="home">
 	
-				<audio preload="auto" id="sound-1"><source src="audio/kap1.mp3"></audio>
+			<audio preload="auto" id="sound-1"><source src="audio/kap1.mp3"></audio>
 			<audio preload="auto" id="sound-2" ><source src="audio/ouy.mp3"></audio>
 			<audio id="sound-link" preload="auto" ><source src="audio/bom1.mp3"></audio>
 	
@@ -78,90 +66,62 @@
                 </div>
 				
 	<div class="col-md-4 col-sm-4 col-xs-12 text-center">
-	
-				
-	<div class="cart">
-			
+	<div class="cart">	
 	<div id="cartvis" class="contentincart col-md-6 col-sm-6 col-xs-12 text-center" 
 	style="visibility: hidden; background: #dedede; position: absolute; z-index: 10;  box-shadow: inset 0px 0px 3px grey;
 	width: 130%; margin-top: 46px; border-radius: 3px; border: 1px solid gray; 6px; margin-left: -43%;     padding-top: 10px;">
 	<table class="tableitem" style="border-bottom: 1px solid black; font-weight: 600; margin-top: 15px; margin: auto; width: 90%; ">
 
 
-<?php
-
-	$dataj = $_POST;
+<?php $dataj = $_POST; $_SESSION['sum']  = 0; $_SESSION['multiple_cart']  = 0; ?>
+<?php if( isset($dataj['del_ses'])) { ?>
+<?php $bi = $dataj['id_pr']; ?>
+<?php if( isset($_SESSION[$bi])) { ?>
+<?php $_SESSION[$bi] = array(); ?>
+<?php } ?>
+<?php } ?>
 	
-	$_SESSION['sum']  = 0;
-	$_SESSION['multiple_cart']  = 0;
-	if( isset($dataj['del_ses']))
-	{
-		$bi = $dataj['id_pr'];
-		if( isset($_SESSION[$bi]))
-		{
-			$_SESSION[$bi] = array();
-		}
-	}
+<?php $dataz = $_POST; ?>
+<?php if( isset($dataz['cart_sub'])) { ?>
+<?php $pfe = $dataz['id_pr']; ?>
+<?php if( !isset($_SESSION[$pfe])) { ?>
+<?php $_SESSION[$pfe] = $dataz; $dkr = $_SESSION[$pfe]; $_SESSION[$pfe] = $dataz; $dkr = $_SESSION[$pfe]; ?>
+<?php } else { ?>
+<?php $dkr = $_SESSION[$pfe]; $vol_prod = $dataz['volume_product']; $vol_prod += $dkr['volume_product']; ?>
+<?php $_SESSION[$pfe] = $dataz; $dkr = $_SESSION[$pfe]; ?>
+<?php } ?>
+<?php } ?>
 	
-	$dataz = $_POST;
-	if( isset($dataz['cart_sub']))
-	{
-		$pfe = $dataz['id_pr'];
-		if( !isset($_SESSION[$pfe]))
-		{
-			$_SESSION[$pfe] = $dataz;
-			$dkr = $_SESSION[$pfe];
-			$_SESSION[$pfe] = $dataz;
-			$dkr = $_SESSION[$pfe];
-		}
-		else
-		{
-			$dkr = $_SESSION[$pfe];
-			$vol_prod = $dataz['volume_product'];
-			$vol_prod += $dkr['volume_product'];
-			$_SESSION[$pfe] = $dataz;
-			$dkr = $_SESSION[$pfe];
-		}
-	}
-	
-	$mass_id = R::getCol( 'SELECT id FROM newitems' );
-	foreach($mass_id as $b)
-	{
-		$b = (' '.$b.' ');
-		if( isset($_SESSION[$b]))
-		{
-			$mass_item = $_SESSION[$b];
-			if($mass_item['name_pr'] != '')
-			{
-				$_SESSION['sum'] += $mass_item['volume_product'];
-				$sum_cart = $_SESSION['sum'];
-				$mult = $mass_item['volume_product'] * $mass_item['price_pr'];
-				$_SESSION['multiple_cart']  += $mult;
-				$multiple_cart = $_SESSION['multiple_cart'];
-			echo '<tr><td style="color: steelblue; border-bottom: 1px solid black; text-transform: uppercase; 
-			font-weight: bold; font-family: Roboto Condensed, sans-serif; padding: 10px 0px 0px 0px; width: 35%;">
-			<a style="color: #478622;">'.@$mass_item['name_pr'].'</a><p style="color: teal; font-size: 10px; 	font-weight: bolder;">
-			<span style="color: red;"> * </span>'.$mass_item['description_pr'].'<span style="color: red;"> * </span></p></td>
-			<td style="text-align: center;     border-bottom: 1px solid black;"><p>'.$mass_item['volume_product'].'</p>
-			<p>шт.</p></td>
-			<td style="text-align: center; border-bottom: 1px solid black;"><p>'.$mass_item['price_pr'].' руб.</p>
-			<p>цена</p></td>
-			<td style="text-align: center; border-bottom: 1px solid black;"><p>'.$mult.' руб.</p>
-			<p>итог</p></td><td style="text-align: center; border-bottom: 1px solid black;">
-			<form style="margin-top: 33%;" method="POST">
-			<input  type="text" style="display: none;" name="id_pr" value="'.$b.'">
-			<input  type="text" style="display: none;" name="name_pr" value="'.@$mass_item['name_pr'].'">
-			<button style="border-width: inherit; width: 33px; height: 32px; background-image: url(del1.ico); " type="submit" name="del_ses"></button>
-	</form></td></tr>';
-			}
-		}
-	}
-?>
-		</table>
+<?php $mass_id = R::getCol( 'SELECT id FROM newitems' ); ?>
+<?php foreach($mass_id as $b) { ?>
+<?php $b = (' '.$b.' '); ?>
+<?php if( isset($_SESSION[$b])) { ?>
+<?php $mass_item = $_SESSION[$b]; ?>
+<?php if($mass_item['name_pr'] != '') { ?>
+<?php $_SESSION['sum'] += $mass_item['volume_product']; $sum_cart = $_SESSION['sum']; ?>
+<?php $mult = $mass_item['volume_product'] * $mass_item['price_pr']; $_SESSION['multiple_cart']  += $mult; ?>
+<?php $multiple_cart = $_SESSION['multiple_cart']; ?>
+<tr><td style="color: steelblue; border-bottom: 1px solid black; text-transform: uppercase; 
+font-weight: bold; font-family: Roboto Condensed, sans-serif; padding: 10px 0px 0px 0px; width: 35%;">
+<a style="color: #478622;"><?php echo @$mass_item['name_pr']; ?></a><p style="color: teal; font-size: 10px; 	font-weight: bolder;"><span style="color: red;"> * </span><?php echo $mass_item['description_pr']; ?><span style="color: red;"> * </span></p></td>
+<td style="text-align: center;     border-bottom: 1px solid black;"><p><?php echo $mass_item['volume_product']; ?></p>
+<p>шт.</p></td>
+<td style="text-align: center; border-bottom: 1px solid black;"><p><?php echo $mass_item['price_pr']; ?> руб.</p>
+<p>цена</p></td>
+<td style="text-align: center; border-bottom: 1px solid black;"><p><?php echo $mult; ?> руб.</p>
+<p>итог</p></td><td style="text-align: center; border-bottom: 1px solid black;">
+<form style="margin-top: 33%;" method="POST">
+<input  type="text" style="display: none;" name="id_pr" value="<?php echo $b; ?>">
+<input  type="text" style="display: none;" name="name_pr" value="<?php echo @$mass_item['name_pr']; ?>">
+<button style="border-width: inherit; width: 33px; height: 32px; background-image: url(del1.ico); " type="submit" name="del_ses"></button>
+	</form></td></tr>
+<?php } ?>
+<?php } ?>
+<?php } ?>
+</table>
 
 		
-<?php 
-			$sum_cart = $_SESSION['sum'];
+<?php $sum_cart = $_SESSION['sum'];
 			if($sum_cart == null)
 			{
 				echo '<br><div style="font-family: Roboto Condensed, sans-serif; font-weight: bold; text-transform: uppercase;
