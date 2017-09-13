@@ -6,6 +6,8 @@
 
 <html dir="ltr" lang="ru" class="">
 <head>
+
+
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="apple-touch-icon-precomposed" sizes="152x152" href="favicon.png">
 		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/i/apple-touch-icon-144x144-precomposed.png">
