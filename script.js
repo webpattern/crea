@@ -12,10 +12,7 @@ $("document").ready(function(){
 		}
 
 		});
-		
 
-
-		 
 		$('.button-up').click(function(){
 		$('body,html').animate({
 		scrollTop: 0
@@ -40,7 +37,5 @@ $("document").ready(function(){
 		function(){
 		$('.cart_vid').animate({'opacity':'0.1'}).css({'background':'none','text-shadow':'0px 0px 0px black','color':'rgb(86, 52, 25)'});;
 		});
-		
-
-		
+			
 });
